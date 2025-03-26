@@ -6,9 +6,9 @@ class MainController extends GetxController {
 
   ///TextEditingController for product,price and quantity showing as well as
   ///updating the database by using it on input fields.
-  TextEditingController productName = TextEditingController();
-  TextEditingController productPrice = TextEditingController();
-  TextEditingController productQuantity = TextEditingController();
+  final productName = TextEditingController();
+  final productPrice = TextEditingController();
+  final productQuantity = TextEditingController();
 
   ///Variable for assigning single or specific product
   ProductListModel product = ProductListModel.empty();
@@ -18,6 +18,7 @@ class MainController extends GetxController {
 
   ///boolean variable for switch between Add and Edit Items Page
   bool isEdit = false;
+  int productId = 0;
 
   @override
   void onInit() async {
@@ -28,7 +29,6 @@ class MainController extends GetxController {
     product = ProductListModel.empty();
     products.clear();
     await fetchProducts();
-    await fetchProductById();
   }
 
   ///Method for switching to Add Items Page
@@ -40,32 +40,83 @@ class MainController extends GetxController {
   }
 
   ///method for switching to Edit Items Page
-  void switchEdit() {
+  void switchEdit() async {
     if (isEdit == false) {
       isEdit = true;
     }
     update();
   }
 
-  ///Future Method for getting products from database
   Future<List<dynamic>> fetchProducts() async {
     products.clear();
     update();
+
+    // Get only the 'results' from API via the provider method
+    final resultList = await _mainAPI.fetchProducts();
+
     products =
-        _mainAPI.sampleProducts
-            .map((item) => ProductListModel.fromJson(item))
-            .toList();
+        resultList.map((item) => ProductListModel.fromJson(item)).toList();
+
     update();
     return products;
   }
 
-  Future<dynamic> fetchProductById() async {
+  Future<dynamic> fetchProductById(int id) async {
+    print("id:$id");
     product = ProductListModel.empty();
-
     update();
-    final Map<String, dynamic> data = jsonDecode(_mainAPI.sampleProduct);
-    product = ProductListModel.fromJson(data);
+    product = ProductListModel.fromJson(await _mainAPI.getProductDetails(id));
     update();
     return product;
+  }
+
+  Future<dynamic> addProduct(String name, String price, String quantity) async {
+    Map<String, dynamic> product = await _mainAPI.postProduct(
+      name,
+      price,
+      quantity,
+    );
+    print(product);
+    return product;
+  }
+
+  Future<dynamic> editProduct(
+    int id,
+    String name,
+    String price,
+    String quantity,
+  ) async {
+    Map<String, dynamic> product = await _mainAPI.updateProduct(
+      id,
+      name,
+      price,
+      quantity,
+    );
+    print(product);
+    return product;
+  }
+
+  Future<dynamic> deleteProduct(int id) async {
+    Map<String, dynamic> product = await _mainAPI.removeProduct(id);
+    print(product);
+    return product;
+  }
+
+  void editValues(int id, String name, String price, String quantity) async {
+    clearController();
+    productId = 0;
+    update();
+    productId = id;
+    productName.text = name;
+    productPrice.text = price;
+    productQuantity.text = quantity;
+    update();
+  }
+
+  void clearController() {
+    productQuantity.text = "";
+    productName.text = "";
+    productPrice.text = "";
+    update();
   }
 }

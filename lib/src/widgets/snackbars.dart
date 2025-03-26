@@ -38,7 +38,7 @@ class SnackNotification {
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text("Error"), Text('message')],
+                  children: [Text("Error"), Text(message)],
                 ),
               ),
             ],
@@ -84,7 +84,7 @@ class SnackNotification {
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text("Warning"), Text('message')],
+                  children: [Text("Warning"), Text(message)],
                 ),
               ),
             ],
@@ -130,7 +130,7 @@ class SnackNotification {
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text("Success"), Text('message')],
+                  children: [Text("Success"), Text(message)],
                 ),
               ),
             ],

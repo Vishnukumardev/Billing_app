@@ -48,22 +48,27 @@ class BillInvoiceApi {
   static Widget buildTitle(BillModel bill) => Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Column(
-        children: [
-          Text(
-            "INVOICE",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-          Text(bill.info.description),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-        ],
+      Expanded(
+        child: Column(
+          children: [
+            Text(
+              "INVOICE",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 0.8 * PdfPageFormat.cm),
+            Text(bill.info.description),
+            SizedBox(height: 0.8 * PdfPageFormat.cm),
+          ],
+        ),
       ),
+      Expanded(child: SizedBox()),
+      Expanded(child: buildInvoiceInfo(bill)),
     ],
   );
 
-  static Widget buildInvoiceInfo(InvoiceInfoModel info) {
-    final paymentTerms = '${info.dueDate.difference(info.date).inDays}days';
+  static Widget buildInvoiceInfo(BillModel bill) {
+    final paymentTerms =
+        '${bill.info.dueDate.difference(bill.info.date).inDays}days';
     final titles = <String>[
       "Invoice Number :",
       "Invoice Date :",
@@ -71,10 +76,10 @@ class BillInvoiceApi {
       "Due Date :",
     ];
     final data = <String>[
-      info.number,
-      Utils.formatDate(info.date),
+      bill.info.number,
+      Utils.formatDate(bill.info.date),
       paymentTerms,
-      Utils.formatDate(info.date),
+      Utils.formatDate(bill.info.date),
     ];
 
     return Column(

@@ -15,6 +15,7 @@ export '../modules/main/main_bindings.dart';
 export '../modules/main/main_controller.dart';
 export '../modules/main/main_page.dart';
 export '../modules/main/widgets/add_items_page.dart';
+export '../modules/main/widgets/item_delete_dialog.dart';
 export '../modules/main/widgets/item_detail_page.dart';
 export '../services/api_helper.dart';
 export '../utils/constants.dart';

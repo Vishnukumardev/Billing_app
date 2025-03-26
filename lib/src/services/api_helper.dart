@@ -16,14 +16,16 @@ class Apihelper extends GetxService {
   }
 
   dynamic _handleError(dynamic error) {
-    SnackNotification.error(message: error);
+    SnackNotification.error(message: error.toString());
     return Exception("###################\nError :  $error");
   }
 
-  Future<dynamic> getRequest(String endpoint) async {
+  Future<dynamic> getRequest(String url, String endpoint) async {
+    print("url : $url\nendpoint:$endpoint");
+    print("#-#-#");
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/$endpoint'),
+        Uri.parse('$url$endpoint'),
         headers: await getHeaders(),
       );
       return _handleResponse(response);
@@ -33,13 +35,18 @@ class Apihelper extends GetxService {
   }
 
   Future<dynamic> postRequest(
+    String url,
     String endpoint,
     Map<String, dynamic> body,
   ) async {
+    print("url : $url\nendpoint:$endpoint");
+    print(body);
+    print("#-#-#");
+
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/$endpoint'),
-        body: body,
+        Uri.parse('$url$endpoint'),
+        body: jsonEncode(body),
         headers: await getHeaders(),
       );
       return _handleResponse(response);
@@ -48,11 +55,15 @@ class Apihelper extends GetxService {
     }
   }
 
-  Future<dynamic> putRequest(String endpoint, Map<String, dynamic> body) async {
+  Future<dynamic> putRequest(
+    String url,
+    String endpoint,
+    Map<String, dynamic> body,
+  ) async {
     try {
       final response = await http.put(
-        Uri.parse('$baseUrl/$endpoint'),
-        body: body,
+        Uri.parse('$url$endpoint'),
+        body: jsonEncode(body),
         headers: await getHeaders(),
       );
       return _handleResponse(response);

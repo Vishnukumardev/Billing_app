@@ -29,7 +29,7 @@ class ProductListModel {
   factory ProductListModel.fromJson(Map<String, dynamic> json) {
     return ProductListModel(
       id: json['id'],
-      productName: json['productName'],
+      productName: json['name'],
       price: (json['price'] as num).toDouble(),
       tax: (json['tax'] as num).toDouble(),
       quantity: json['quantity'],
@@ -40,7 +40,7 @@ class ProductListModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'productName': productName,
+      'name': productName,
       'price': price,
       'tax': tax,
       'quantity': quantity,

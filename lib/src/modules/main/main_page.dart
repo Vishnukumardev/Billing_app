@@ -95,6 +95,9 @@ class MainPage extends StatelessWidget {
                                   InkWell(
                                     child: Icon(Icons.info),
                                     onTap: () {
+                                      controller.fetchProductById(
+                                        controller.products[index].id,
+                                      );
                                       Get.dialog(
                                         ItemDetailPage(),
                                         barrierDismissible: false,
@@ -104,13 +107,42 @@ class MainPage extends StatelessWidget {
                                   SizedBox(width: 10.0),
                                   InkWell(
                                     onTap: () {
+                                      controller.editValues(
+                                        controller.products[index].id,
+                                        controller.products[index].productName,
+                                        controller.products[index].price
+                                            .toString(),
+                                        controller.products[index].quantity
+                                            .toString(),
+                                      );
                                       controller.switchEdit();
                                       Get.dialog(AddItemsPage());
                                     },
                                     child: Icon(Icons.edit),
                                   ),
                                   SizedBox(width: 10.0),
-                                  Icon(Icons.delete),
+                                  InkWell(
+                                    onTap: () {
+                                      showDeleteDialog(
+                                        itemName:
+                                            controller
+                                                .products[index]
+                                                .productName,
+                                        onConfirm: () async {
+                                          final response = await controller
+                                              .deleteProduct(
+                                                controller.products[index].id,
+                                              );
+                                          String message = response["message"];
+                                          SnackNotification.success(
+                                            message: message,
+                                          );
+                                          await controller.fetchProducts();
+                                        },
+                                      );
+                                    },
+                                    child: Icon(Icons.delete),
+                                  ),
                                 ],
                               ),
                             ],

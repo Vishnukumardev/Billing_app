@@ -56,7 +56,73 @@ class MainAPI {
 }''';
 
   Future<List<dynamic>> fetchProducts() async {
-    final response = await _apihelper.getRequest("endpoint");
+    final response = await _apihelper.getRequest(productionUrl, listProducts);
+    print(response);
+    return response["results"]; // returns List<dynamic>
+  }
+
+  Future<dynamic> getProductDetails(int id) async {
+    Map<String, dynamic> body = {"id": id};
+    final response = await _apihelper.postRequest(
+      productionUrl,
+      getProduct,
+      body,
+    );
+
+    return response;
+  }
+
+  Future<dynamic> postProduct(
+    String name,
+    String price,
+    String quantity,
+  ) async {
+    Map<String, dynamic> body = {
+      "name": name,
+      "price": price,
+      "discount": 10,
+      "quantity": quantity,
+      "tax": 1.8,
+      "status": 0,
+    };
+    final response = await _apihelper.postRequest(
+      productionUrl,
+      addProduct,
+      body,
+    );
+
+    return response;
+  }
+
+  Future<dynamic> updateProduct(
+    int id,
+    String name,
+    String price,
+    String quantity,
+  ) async {
+    Map<String, dynamic> body = {
+      "id": id,
+      "name": name,
+      "price": price,
+      "quantity": quantity,
+    };
+    final response = await _apihelper.putRequest(
+      productionUrl,
+      editProduct,
+      body,
+    );
+
+    return response;
+  }
+
+  Future<dynamic> removeProduct(int id) async {
+    Map<String, dynamic> body = {"id": id};
+
+    final response = await _apihelper.putRequest(
+      productionUrl,
+      deleteProduct,
+      body,
+    );
     return response;
   }
 }
