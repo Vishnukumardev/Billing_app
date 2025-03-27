@@ -164,6 +164,7 @@ class MainPage extends StatelessWidget {
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
+                  controller.clearController();
                   controller.switchAdd();
                   Get.dialog(AddItemsPage(), barrierDismissible: false);
                 },
