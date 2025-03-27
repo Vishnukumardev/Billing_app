@@ -1,4 +1,4 @@
-# 📱 Flutter App - Your App Name
+# 📱 Flutter App - Billing App
 
 This is a Flutter-based mobile application built with Dart. It supports both Android and iOS platforms and follows clean architecture with state management (like Riverpod, Bloc, or Provider if used).
 
