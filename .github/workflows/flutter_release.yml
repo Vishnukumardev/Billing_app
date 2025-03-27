@@ -3,14 +3,14 @@ name: Flutter Release Build
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch
+      - main
   pull_request:
     branches:
-      - main  # Optional: Trigger the workflow on pull requests to the main branch
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout the repository
@@ -21,25 +21,22 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3' # Specify the Flutter version you want to use
+          flutter-version: '3.8.0' # Match your SDK requirement
 
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v3
-        with:
-          path: /opt/hostedtoolcache/flutter
-          key: flutter-cache-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            flutter-cache-${{ runner.os }}-
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
 
-      # Step 4: Build the app in release mode
+      # Step 4: Build the release APK
       - name: Build release APK
-        run: flutter build apk --release  # For Android APK
-        # Alternatively, for iOS: flutter build ios --release --no-codesign
+        run: flutter build apk --release
 
-      # Step 5: Upload the built APK as an artifact (optional)
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+      # Step 5: Create GitHub Release and Upload APK
+      - name: Create GitHub Release and Upload APK
+        uses: softprops/action-gh-release@v2
         with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/camera.apk
-          archive: false
+          tag_name: v1.0.${{ github.run_number }}
+          name: Flutter App v1.0.${{ github.run_number }}
+          files: build/app/outputs/flutter-apk/app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
