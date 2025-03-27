@@ -21,7 +21,8 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.8.0' # Match your SDK requirement
+          flutter-version: '3.29.2' # or '3.8.0-219.0.dev'
+          channel: 'stable'         # or 'dev'
 
       # Step 3: Install dependencies
       - name: Install dependencies
