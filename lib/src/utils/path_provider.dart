@@ -1,5 +1,6 @@
 export 'dart:convert';
 
+export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 export 'package:get/get.dart';
@@ -18,7 +19,9 @@ export '../modules/main/widgets/add_items_page.dart';
 export '../modules/main/widgets/item_delete_dialog.dart';
 export '../modules/main/widgets/item_detail_page.dart';
 export '../services/api_helper.dart';
+export '../services/network_service.dart';
 export '../utils/constants.dart';
+export '../utils/dependency_injection.dart';
 export '../widgets/common_widgets.dart';
 export '../widgets/snackbars.dart';
 export '../widgets/utils.dart';

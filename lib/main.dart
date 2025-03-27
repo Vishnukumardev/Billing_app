@@ -1,11 +1,12 @@
 import 'src/utils/path_provider.dart';
 
-Future main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  DependencyInjection.init();
   runApp(const MyApp());
 }
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: "Super Market Billing Application",
       initialBinding: MainBindings(),
+      debugShowCheckedModeBanner: false,
       home: MainPage(),
     );
   }

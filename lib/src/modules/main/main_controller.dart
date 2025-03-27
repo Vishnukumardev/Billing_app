@@ -17,6 +17,7 @@ class MainController extends GetxController {
   List<ProductListModel> products = [];
 
   ///boolean variable for switch between Add and Edit Items Page
+  final RxBool isLoading = true.obs;
   bool isEdit = false;
   int productId = 0;
 
@@ -48,6 +49,7 @@ class MainController extends GetxController {
   }
 
   Future<List<dynamic>> fetchProducts() async {
+    isLoading.value = true;
     products.clear();
     update();
 
@@ -56,7 +58,7 @@ class MainController extends GetxController {
 
     products =
         resultList.map((item) => ProductListModel.fromJson(item)).toList();
-
+    isLoading.value = false;
     update();
     return products;
   }
